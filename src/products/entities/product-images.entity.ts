@@ -9,12 +9,12 @@ export class ProductImages{
 
     @Column()
     url:string;
-
     //relaciones de muchos a uno
     //muchas imagenes pueden ser de un producto
     @ManyToOne(
         () => Product,
-        (product) => product.images
+        (product) => product.images,
+        {onDelete:'CASCADE'}
     )
     product: Product
 }
