@@ -28,7 +28,7 @@ export class SizeService {
 
   findAll() {
     return this.productRepository.find({
-      relations:['images']
+      relations:['size']
     });
   }
 
