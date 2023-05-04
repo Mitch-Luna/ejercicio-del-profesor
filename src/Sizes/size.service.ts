@@ -46,7 +46,7 @@ export class SizeService {
 
   async update(id: string, cambios: CreateShirtsDto){
     const {size, ...updateAll} = cambios;
-    const product = await this.productRepository.preload({
+    const shirt = await this.productRepository.preload({
       id: id, 
       ...updateAll,
 
@@ -57,15 +57,15 @@ export class SizeService {
     await queryRunner.startTransaction();
 
     if(size){
-      await queryRunner.manager.delete( ProductSize,{product:{id}}) 
-        product.size = size.map((tallas)=> this.sizeRepository.create({tallas:tallas}))
+      await queryRunner.manager.delete( ProductSize,{size:{id}}) 
+      shirt.size = size.map((tallas)=> this.sizeRepository.create({tallas:tallas}))
     }else{
-      product.size = await this.sizeRepository.findBy({size:{id}})
+      shirt.size = await this.sizeRepository.findBy({size:{id}})
     }
 
-    await queryRunner.manager.save(product)
+    await queryRunner.manager.save(shirt)
     await queryRunner.commitTransaction();
     await queryRunner.release();
-    return product;
+    return shirt;
   }
 } 
